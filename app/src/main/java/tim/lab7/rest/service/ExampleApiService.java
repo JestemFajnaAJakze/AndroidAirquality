@@ -47,7 +47,7 @@ public interface ExampleApiService {
     ResponsePOJO delComment(@Path("id")String entryId, @Path("id2")String commentId);
 
 
-    @GET("/airquality/stations/") //zwraca wszystkie stacje
+    @GET("/airquality/") //zwraca wszystkie stacje
     void getAllStations(Callback<List<StationPOJO>> cb);
 
     @GET("/airquality/{stationId}/") //zwraca wszystkie stacje
