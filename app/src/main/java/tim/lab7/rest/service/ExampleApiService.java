@@ -50,7 +50,7 @@ public interface ExampleApiService {
     @GET("/airquality/") //zwraca wszystkie stacje
     void getAllStations(Callback<List<StationPOJO>> cb);
 
-    @GET("/airquality/{stationId}/") //zwraca wszystkie stacje
+    @GET("/airquality/{stationId}/") //zwraca stacje
     void getStationInfo(@Path("stationId")String stationId, Callback<StationPOJO> cb);
 
 
