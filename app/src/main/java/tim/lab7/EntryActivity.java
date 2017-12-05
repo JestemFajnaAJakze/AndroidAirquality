@@ -63,7 +63,6 @@ public class EntryActivity extends AppCompatActivity {
     @ViewById
     ListView substanceList;
 
-    StationAdapter adapter;
     public ArrayList<SubstancePOJO> CustomListViewValuesArr = new ArrayList<SubstancePOJO>();
 
     @Click
@@ -156,17 +155,21 @@ public class EntryActivity extends AppCompatActivity {
 
     @AfterViews
     void initStation() {
+
+
 //        LiterarySubstancePOJO literarySubstancePOJO = new LiterarySubstancePOJO();
 //        literarySubstancePOJO.setSubstanceId("1");
 //        literarySubstancePOJO.setSubstanceName("CO");
 //        literarySubstancePOJO.setTreshold(20.0);
 //        literarySubstancePOJO.setUnit("g/m3");
 //        literarySubstances.add(literarySubstancePOJO);
-        choosenStationId = "0";
-        choosenStationId = getIntent().getStringExtra("choosenStationId");
-        stationId.setText("ID: " + choosenStationId);
-        stationPOJO = new StationPOJO();
-        getStationInfoById(choosenStationId);
+//        choosenStationId = "0";
+//        choosenStationId = getIntent().getStringExtra("choosenStationId");
+//        stationId.setText("ID: " + choosenStationId);
+//        stationPOJO = new StationPOJO();
+//        getStationInfoById(choosenStationId);
+//        city.setText(stationPOJO.getStationAddress().getCity());
+//        street.setText(stationPOJO.getStationAddress().getStreet());
     }
 
     public double findSubstanceValue(LiterarySubstancePOJO literarySubstancePOJO, List<SubstancePOJO> substancePOJOS) {
@@ -199,13 +202,16 @@ public class EntryActivity extends AppCompatActivity {
         if (hasFocus) {
             System.out.println("stacji " + stationPOJO.getSubstances().size());
             System.out.println("slownikowe " + literarySubstances.size());
+            stationId.setText("ID: " + choosenStationId);
+            city.setText(stationPOJO.getStationAddress().getCity());
+            street.setText(stationPOJO.getStationAddress().getStreet());
             mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
             System.out.println("all " + substanceAllList.size());
             StationAdapter stationAdapter = new StationAdapter(this, R.layout.station_row, substanceAllList);
+            stationAdapter.notifyDataSetChanged();
             substanceList.setAdapter(stationAdapter);
 
-//            city.setText(stationPOJO.getStationAddress().getCity());
-//            street.setText(stationPOJO.getStationAddress().getStreet());
+
 //            substanceAllList = mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
 //
 //
@@ -217,6 +223,10 @@ public class EntryActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         setContentView(R.layout.activity_station);
+        choosenStationId = "0";
+        choosenStationId = getIntent().getStringExtra("choosenStationId");
+        //stationId.setText("ID: " + choosenStationId);
+        stationPOJO = new StationPOJO();
         getStationInfoById(choosenStationId);
 
 
@@ -286,5 +296,10 @@ public class EntryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        choosenStationId = "0";
+        choosenStationId = getIntent().getStringExtra("choosenStationId");
+        //stationId.setText("ID: " + choosenStationId);
+        stationPOJO = new StationPOJO();
+        getStationInfoById(choosenStationId);
     }
 }
