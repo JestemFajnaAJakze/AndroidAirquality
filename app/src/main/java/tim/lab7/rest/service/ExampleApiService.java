@@ -14,6 +14,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 import tim.lab7.rest.model.CommentPOJO;
 import tim.lab7.rest.model.EntryPOJO;
+import tim.lab7.rest.model.LiterarySubstancePOJO;
 import tim.lab7.rest.model.RequestPOJO;
 import tim.lab7.rest.model.ResponsePOJO;
 import tim.lab7.rest.model.StationPOJO;
@@ -47,12 +48,15 @@ public interface ExampleApiService {
     ResponsePOJO delComment(@Path("id")String entryId, @Path("id2")String commentId);
 
 
+
     @GET("/airquality/") //zwraca wszystkie stacje
     void getAllStations(Callback<List<StationPOJO>> cb);
 
     @GET("/airquality/{stationId}/") //zwraca stacje
     void getStationInfo(@Path("stationId")String stationId, Callback<StationPOJO> cb);
 
+    @GET("/literary-substances/")
+    void getLiterarySubstances(Callback<List<LiterarySubstancePOJO>> cb);
 
 
     @GET("/hello")

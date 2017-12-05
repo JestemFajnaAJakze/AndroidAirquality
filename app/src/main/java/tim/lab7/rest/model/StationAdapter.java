@@ -4,6 +4,7 @@ package tim.lab7.rest.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,15 @@ public class StationAdapter extends ArrayAdapter<SubstanceAll> {
             }
             if(unit != null){
                 unit.setText(substanceAll.getUnit());
+            }
+            if(substanceAll.getValue()>substanceAll.getTreshold()){
+                value.setTextColor(Color.RED);
+            }
+            if(substanceAll.getValue()==substanceAll.getTreshold()){
+                value.setTextColor(Color.YELLOW);
+            }
+            if(substanceAll.getValue()<substanceAll.getTreshold()){
+                value.setTextColor(Color.GREEN);
             }
         }
         return v;

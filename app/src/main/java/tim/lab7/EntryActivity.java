@@ -46,7 +46,8 @@ public class EntryActivity extends AppCompatActivity {
 
     StationPOJO stationPOJO = new StationPOJO();
     List<LiterarySubstancePOJO> literarySubstances = new ArrayList<LiterarySubstancePOJO>();
-    List<SubstanceAll> substanceAllList;
+    List<SubstanceAll> substanceAllList = new ArrayList<>();
+
 
     RestAdapter restAdapter;
     static final String API_URL = "http://10.0.2.2:8282/lab6_v2Web/";
@@ -65,44 +66,6 @@ public class EntryActivity extends AppCompatActivity {
     StationAdapter adapter;
     public ArrayList<SubstancePOJO> CustomListViewValuesArr = new ArrayList<SubstancePOJO>();
 
-//    @ViewById
-//    EditText urlText;
-//
-//    @ViewById
-//    EditText idText;
-//    @ViewById
-//    EditText dateText;
-//    @ViewById
-//    EditText subjectText;
-//    @ViewById
-//    EditText contentText;
-//    @ViewById
-//    EditText commentsText;
-//
-//    @ViewById
-//    EditText getEntryIdText;
-//    @ViewById
-//    EditText delEntryIdText;
-//    @ViewById
-//    EditText putEntryIdText;
-//
-//    @Click
-//    void addEntryButton(){
-//        addEntry();
-//    }
-
-    //    @Click
-//    protected void delEntryButton(){
-//        delEntry();
-//    }
-//    @Click
-//    protected void putEntryButton(){
-//        putEntry();
-//    }
-//    @Click
-//    protected void delAllEntryButton(){
-//        delAllEntry();
-//    }
     @Click
     void GetStationInfoByIdButton() {
         getStationInfoById(choosenStationId);
@@ -158,16 +121,47 @@ public class EntryActivity extends AppCompatActivity {
         };
         methods.getStationInfo(choosenStationId, cb);
 
+        OkHttpClient mOkHttpClient2 = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+        mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
+
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .setClient(new OkClient(mOkHttpClient2))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        ExampleApiService methods2 = restAdapter.create(ExampleApiService.class);
+
+
+        Callback<List<LiterarySubstancePOJO>> cb2 = new Callback<List<LiterarySubstancePOJO>>() {
+
+            @Override
+            public void success(List<LiterarySubstancePOJO> literarySubstancePOJOList, retrofit.client.Response response) {
+
+                for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOList) {
+                    literarySubstances.add(literarySubstancePOJO);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+
+            }
+
+
+        };
+        methods2.getLiterarySubstances(cb2);
+
     }
 
     @AfterViews
     void initStation() {
-        LiterarySubstancePOJO literarySubstancePOJO = new LiterarySubstancePOJO();
-        literarySubstancePOJO.setSubstanceId("1");
-        literarySubstancePOJO.setSubstanceName("CO");
-        literarySubstancePOJO.setTreshold(20.0);
-        literarySubstancePOJO.setUnit("g/m3");
-        literarySubstances.add(literarySubstancePOJO);
+//        LiterarySubstancePOJO literarySubstancePOJO = new LiterarySubstancePOJO();
+//        literarySubstancePOJO.setSubstanceId("1");
+//        literarySubstancePOJO.setSubstanceName("CO");
+//        literarySubstancePOJO.setTreshold(20.0);
+//        literarySubstancePOJO.setUnit("g/m3");
+//        literarySubstances.add(literarySubstancePOJO);
         choosenStationId = "0";
         choosenStationId = getIntent().getStringExtra("choosenStationId");
         stationId.setText("ID: " + choosenStationId);
@@ -179,14 +173,13 @@ public class EntryActivity extends AppCompatActivity {
 
         for (SubstancePOJO substancePOJO : substancePOJOS) {
             if (substancePOJO.getType().equals(literarySubstancePOJO.getSubstanceId())) {
-                return literarySubstancePOJO.getTreshold();
+                return substancePOJO.getValue();
             }
         }
         return 0d;
     }
 
     private List<SubstanceAll> mergeSubstancesLists(List<SubstancePOJO> substancePOJOS, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
-        substanceAllList = new ArrayList<>();
         SubstanceAll substanceAll = new SubstanceAll();
         for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOS) {
             substanceAll.setSubstanceId(literarySubstancePOJO.getSubstanceId());
@@ -204,12 +197,18 @@ public class EntryActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            city.setText(stationPOJO.getStationAddress().getCity());
-            street.setText(stationPOJO.getStationAddress().getStreet());
-            substanceAllList = mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
-
+            System.out.println("stacji " + stationPOJO.getSubstances().size());
+            System.out.println("slownikowe " + literarySubstances.size());
+            mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
+            System.out.println("all " + substanceAllList.size());
             StationAdapter stationAdapter = new StationAdapter(this, R.layout.station_row, substanceAllList);
             substanceList.setAdapter(stationAdapter);
+
+//            city.setText(stationPOJO.getStationAddress().getCity());
+//            street.setText(stationPOJO.getStationAddress().getStreet());
+//            substanceAllList = mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
+//
+//
         }
     }
 
