@@ -73,7 +73,7 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     //    @Background
-    void getStationInfoById(String stationId) {
+    private StationPOJO getStationInfoById() {
 //        Toast.makeText(getApplicationContext(),
 //                "REST: ", Toast.LENGTH_SHORT)
 //                .show();
@@ -152,6 +152,8 @@ public class EntryActivity extends AppCompatActivity {
         };
         methods2.getLiterarySubstances(cb2);
 
+        return stationPOJO;
+
     }
 
     @AfterViews
@@ -173,24 +175,42 @@ public class EntryActivity extends AppCompatActivity {
 //        street.setText(stationPOJO.getStationAddress().getStreet());
     }
 
-    public double findSubstanceValue(LiterarySubstancePOJO literarySubstancePOJO, List<SubstancePOJO> substancePOJOS) {
+    public double findSubstanceTreshold(SubstancePOJO substancePOJO, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
 
-        for (SubstancePOJO substancePOJO : substancePOJOS) {
+        for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOS) {
             if (substancePOJO.getType().equals(literarySubstancePOJO.getSubstanceId())) {
-                return substancePOJO.getValue();
+                return literarySubstancePOJO.getTreshold();
             }
         }
         return 0d;
     }
 
-    private List<SubstanceAll> mergeSubstancesLists(List<SubstancePOJO> substancePOJOS, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
-        SubstanceAll substanceAll = new SubstanceAll();
+    public String findSubstanceUnit(SubstancePOJO substancePOJO, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
+
         for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOS) {
-            substanceAll.setSubstanceId(literarySubstancePOJO.getSubstanceId());
-            substanceAll.setSubstanceName(literarySubstancePOJO.getSubstanceName());
-            substanceAll.setTreshold(literarySubstancePOJO.getTreshold());
-            substanceAll.setUnit(literarySubstancePOJO.getUnit());
-            substanceAll.setValue(findSubstanceValue(literarySubstancePOJO, substancePOJOS));
+            if (substancePOJO.getType().equals(literarySubstancePOJO.getSubstanceId())) {
+                return literarySubstancePOJO.getUnit();
+            }
+        }
+        return "EMPTY";
+    }
+
+    private List<SubstanceAll> mergeSubstancesLists(List<SubstancePOJO> substancePOJOS, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
+////        for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOS) {
+//            substanceAll.setSubstanceId(literarySubstancePOJO.getSubstanceId());
+//            substanceAll.setSubstanceName(literarySubstancePOJO.getSubstanceName());
+//            substanceAll.setTreshold(literarySubstancePOJO.getTreshold());
+//            substanceAll.setUnit(literarySubstancePOJO.getUnit());
+//            substanceAll.setValue(findSubstanceValue(literarySubstancePOJO, substancePOJOS));
+//            substanceAllList.add(substanceAll);
+
+        for (SubstancePOJO substancePOJO : substancePOJOS) {
+            SubstanceAll substanceAll = new SubstanceAll();
+            substanceAll.setSubstanceId(substancePOJO.getType());
+            substanceAll.setSubstanceName(substancePOJO.getSubstanceName());
+            substanceAll.setTreshold(findSubstanceTreshold(substancePOJO, literarySubstancePOJOS));
+            substanceAll.setUnit(findSubstanceUnit(substancePOJO, literarySubstancePOJOS));
+            substanceAll.setValue(substancePOJO.getValue());
             substanceAllList.add(substanceAll);
         }
         return substanceAllList;
@@ -301,7 +321,7 @@ public class EntryActivity extends AppCompatActivity {
         stationPOJO = new StationPOJO();
         choosenStationId = "0";
         choosenStationId = getIntent().getStringExtra("choosenStationId");
-        getStationInfoById(choosenStationId);
+        stationPOJO = getStationInfoById();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -319,13 +339,22 @@ public class EntryActivity extends AppCompatActivity {
 //        }
         substanceAllList = new ArrayList<>();
 
-        city.setText(stationPOJO.getStationAddress().getCity());
-        street.setText(stationPOJO.getStationAddress().getStreet());
-        mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
-        System.out.println("all " + substanceAllList.size());
-        StationAdapter stationAdapter = new StationAdapter(this, R.layout.station_row, substanceAllList);
-        substanceList.setAdapter(stationAdapter);
-
+        try {
+            city.setText(stationPOJO.getStationAddress().getCity());
+            street.setText(stationPOJO.getStationAddress().getStreet());
+            mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
+            System.out.println("all " + substanceAllList.size());
+            StationAdapter stationAdapter = new StationAdapter(this, R.layout.station_row, substanceAllList);
+            substanceList.setAdapter(stationAdapter);
+        } catch (Exception e) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setStationData();
+                }
+            }, 300);
+        }
     }
 
 
