@@ -199,9 +199,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        String choosenTestId = "0";
 //        choosenTestId = stationIdList.get(position);
 //        //choosenTestId = position+1;
-        Toast.makeText(getApplicationContext(),
-                "Wybrales: " + stationIdList.get(position), Toast.LENGTH_SHORT)
-                .show();
+//        Toast.makeText(getApplicationContext(),
+//                "Wybrales: " + stationIdList.get(position), Toast.LENGTH_SHORT)
+//                .show();
         Intent intent = new Intent(getApplicationContext(), EntryActivity_.class);
         intent.putExtra("choosenStationId", stationIdList.get(position));
 

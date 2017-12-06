@@ -34,16 +34,6 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/stationAddress"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:paddingLeft="20sp"
-                android:text="Adres:"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
-
-            <TextView
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

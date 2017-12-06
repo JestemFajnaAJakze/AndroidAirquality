@@ -340,8 +340,9 @@ public class EntryActivity extends AppCompatActivity {
         substanceAllList = new ArrayList<>();
 
         try {
-            city.setText(stationPOJO.getStationAddress().getCity());
-            street.setText(stationPOJO.getStationAddress().getStreet());
+            stationId.setText("ID: " + stationPOJO.getStationId());
+            city.setText("Miasto: " + stationPOJO.getStationAddress().getCity());
+            street.setText("Ulica: " + stationPOJO.getStationAddress().getStreet());
             mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
             System.out.println("all " + substanceAllList.size());
             StationAdapter stationAdapter = new StationAdapter(this, R.layout.station_row, substanceAllList);
