@@ -41,39 +41,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ListView stationList;
     private ArrayList<String> stationIdList;
     private ArrayAdapter<String> adapter;
-    List<StationPOJO> stations = new ArrayList<StationPOJO>();
 
     @AfterViews
     void initList() {
         stationIdList = new ArrayList<>();
-//        stationIdList.add("Stacja 1");
-//        stationIdList.add("Stacja 2");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-//        stationIdList.add("Stacja 3");
-
-
         getStationList();
         stationList.setOnItemClickListener(this);
-
-
-
     }
-
-//    @Click
-//    void EntryMethodsButton() {
-//        Intent i = new Intent(this, EntryActivity_.class);
-//        startActivityForResult(i, 1);
-//    }
 
     @Click
     void getStationListButton() {
@@ -83,11 +57,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Background
     void getStationList() {
-//        Toast.makeText(getApplicationContext(),
-//                "REST: ", Toast.LENGTH_SHORT)
-//                .show();
-        //TODO tu bedzie RESTowa komunikacja
-
         OkHttpClient mOkHttpClient = new OkHttpClient();
         mOkHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
         mOkHttpClient.setReadTimeout(15000, TimeUnit.MILLISECONDS);
@@ -114,70 +83,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, stationIdList);
                 stationList.setAdapter(adapter);
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_list_item_1, categoryNameList);
-
             }
-
 
             @Override
             public void failure(RetrofitError error) {
                 Log.e("MainActivity", error.getMessage() + "\n" + error.getStackTrace());
                 error.printStackTrace();
 
-
             }
         };
         methods.getAllStations(cb);
-
-        /*try {
-            RestClient client = new RestClient("http://localhost:8282/lab6_v2Web/");
-
-
-
-            stations = client.getAllStations();
-            MainActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("ILE STACJI: " + stations.size());
-//                    idText.setText(Integer.toString(entryPOJO.getId()));
-//                    dateText.setText(entryPOJO.getDate());
-//                    subjectText.setText(entryPOJO.getSubject());
-//                    contentText.setText(entryPOJO.getContent());
-//                    commentsText.setText(entryPOJO.getComments().toString());
-                }
-            });
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Wrong request parameters!", Toast.LENGTH_SHORT).show();
-        }*/
     }
-
-
-
-
-    @Background
-//    void getEntry(){
-//        try {
-//            RestClient client = new RestClient(urlText.getText().toString());
-//            final EntryPOJO entryPOJO = client.getEntryById(getEntryIdText.getText().toString());
-//            EntryActivity.this.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    System.out.println(entryPOJO.toString());
-//                    idText.setText(Integer.toString(entryPOJO.getId()));
-//                    dateText.setText(entryPOJO.getDate());
-//                    subjectText.setText(entryPOJO.getSubject());
-//                    contentText.setText(entryPOJO.getContent());
-//                    commentsText.setText(entryPOJO.getComments().toString());
-//                }
-//            });
-//        }
-//        catch (Exception e){
-//            Toast.makeText(getApplicationContext(), "Wrong request parameters!",Toast.LENGTH_SHORT).show();
-//        }
-//
-//
-//    }
-
 
     @Override
     protected void onRestart() {
@@ -193,25 +109,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         getStationList();
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        String choosenTestId = "0";
-//        choosenTestId = stationIdList.get(position);
-//        //choosenTestId = position+1;
-//        Toast.makeText(getApplicationContext(),
-//                "Wybrales: " + stationIdList.get(position), Toast.LENGTH_SHORT)
-//                .show();
         Intent intent = new Intent(getApplicationContext(), EntryActivity_.class);
         intent.putExtra("choosenStationId", stationIdList.get(position));
-
         startActivity(intent);
     }
-
-//    @Click
-//    void CommentMethodsButton() {
-//        Intent i = new Intent(this, CommentActivity_.class);
-//        startActivityForResult(i, 1);
-//    }
-
 }

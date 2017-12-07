@@ -72,7 +72,7 @@ public class StationAdapter extends ArrayAdapter<SubstanceAll> {
                 value.setTextColor(Color.RED);
             }
             if(substanceAll.getValue()==substanceAll.getTreshold()){
-                value.setTextColor(Color.YELLOW);
+                value.setTextColor(Color.BLUE);
             }
             if(substanceAll.getValue()<substanceAll.getTreshold()){
                 value.setTextColor(Color.GREEN);

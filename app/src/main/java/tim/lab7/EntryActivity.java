@@ -69,14 +69,10 @@ public class EntryActivity extends AppCompatActivity {
     void GetStationInfoByIdButton() {
         substanceAllList.clear();
         initializeData();
-        ;
     }
 
-    //    @Background
     private StationPOJO getStationInfoById() {
-//        Toast.makeText(getApplicationContext(),
-//                "REST: ", Toast.LENGTH_SHORT)
-//                .show();
+
         //TODO tu bedzie RESTowa komunikacja
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -156,25 +152,6 @@ public class EntryActivity extends AppCompatActivity {
 
     }
 
-    @AfterViews
-    void initStation() {
-
-
-//        LiterarySubstancePOJO literarySubstancePOJO = new LiterarySubstancePOJO();
-//        literarySubstancePOJO.setSubstanceId("1");
-//        literarySubstancePOJO.setSubstanceName("CO");
-//        literarySubstancePOJO.setTreshold(20.0);
-//        literarySubstancePOJO.setUnit("g/m3");
-//        literarySubstances.add(literarySubstancePOJO);
-//        choosenStationId = "0";
-//        choosenStationId = getIntent().getStringExtra("choosenStationId");
-//        stationId.setText("ID: " + choosenStationId);
-//        stationPOJO = new StationPOJO();
-//        getStationInfoById(choosenStationId);
-//        city.setText(stationPOJO.getStationAddress().getCity());
-//        street.setText(stationPOJO.getStationAddress().getStreet());
-    }
-
     public double findSubstanceTreshold(SubstancePOJO substancePOJO, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
 
         for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOS) {
@@ -196,14 +173,6 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     private List<SubstanceAll> mergeSubstancesLists(List<SubstancePOJO> substancePOJOS, List<LiterarySubstancePOJO> literarySubstancePOJOS) {
-////        for (LiterarySubstancePOJO literarySubstancePOJO : literarySubstancePOJOS) {
-//            substanceAll.setSubstanceId(literarySubstancePOJO.getSubstanceId());
-//            substanceAll.setSubstanceName(literarySubstancePOJO.getSubstanceName());
-//            substanceAll.setTreshold(literarySubstancePOJO.getTreshold());
-//            substanceAll.setUnit(literarySubstancePOJO.getUnit());
-//            substanceAll.setValue(findSubstanceValue(literarySubstancePOJO, substancePOJOS));
-//            substanceAllList.add(substanceAll);
-
         for (SubstancePOJO substancePOJO : substancePOJOS) {
             SubstanceAll substanceAll = new SubstanceAll();
             substanceAll.setSubstanceId(substancePOJO.getType());
@@ -217,103 +186,15 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        // TODO Auto-generated method stub
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-//            System.out.println("stacji " + stationPOJO.getSubstances().size());
-//            System.out.println("slownikowe " + literarySubstances.size());
-//            stationId.setText("ID: " + choosenStationId);
-//            city.setText(stationPOJO.getStationAddress().getCity());
-//            street.setText(stationPOJO.getStationAddress().getStreet());
-//            mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
-//            System.out.println("all " + substanceAllList.size());
-//            StationAdapter stationAdapter = new StationAdapter(this, R.layout.station_row, substanceAllList);
-//            stationAdapter.notifyDataSetChanged();
-//            substanceList.setAdapter(stationAdapter);
-
-
-//            substanceAllList = mergeSubstancesLists(stationPOJO.getSubstances(), literarySubstances);
-//
-//
-        }
-    }
-
-
-    @Override
     protected void onRestart() {
         super.onRestart();
         setContentView(R.layout.activity_station);
         initializeData();
-
-
-//
-//    @Background
-//    void addEntry(){
-//        RestClient client = new RestClient(urlText.getText().toString());
-//        List<CommentPOJO> list = new ArrayList<>();
-//        final EntryPOJO entryPOJO = new EntryPOJO(Integer.parseInt(idText.getText().toString()),dateText.getText().toString(),subjectText.getText().toString(),contentText.getText().toString(), list);
-//        client.addEntry(entryPOJO);
-//    }
-//
-//    @Background
-//    void getEntry(){
-//        try {
-//            RestClient client = new RestClient(urlText.getText().toString());
-//            final EntryPOJO entryPOJO = client.getEntryById(getEntryIdText.getText().toString());
-//            EntryActivity.this.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    System.out.println(entryPOJO.toString());
-//                    idText.setText(Integer.toString(entryPOJO.getId()));
-//                    dateText.setText(entryPOJO.getDate());
-//                    subjectText.setText(entryPOJO.getSubject());
-//                    contentText.setText(entryPOJO.getContent());
-//                    commentsText.setText(entryPOJO.getComments().toString());
-//                }
-//            });
-//        }
-//        catch (Exception e){
-//            Toast.makeText(getApplicationContext(), "Wrong request parameters!",Toast.LENGTH_SHORT).show();
-//        }
-//
-//
-//    }
-//
-//    @Background
-//    void delEntry(){
-//        RestClient client = new RestClient(urlText.getText().toString());
-//        client.delEntry(delEntryIdText.getText().toString());
-//    }
-//
-//    @Background
-//    void putEntry(){
-//        try {
-//
-//
-//            RestClient client = new RestClient(urlText.getText().toString());
-//            List<CommentPOJO> list = client.getEntryById(putEntryIdText.getText().toString()).getComments();
-//            client = new RestClient(urlText.getText().toString());
-//            final EntryPOJO entryPOJO = new EntryPOJO(Integer.parseInt(idText.getText().toString()), dateText.getText().toString(), subjectText.getText().toString(), contentText.getText().toString(), list);
-//            client.putEntry(entryPOJO, putEntryIdText.getText().toString());
-//        }
-//        catch (Exception e){
-//            Toast.makeText(getApplicationContext(), "Wrong request parameters!",Toast.LENGTH_SHORT).show();
-//
-//        }
-//    }
-//
-//    @Background
-//    void delAllEntry(){
-//        RestClient client = new RestClient(urlText.getText().toString());
-//        client.delAllEntry();
-//    }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //substanceAllList.clear();
         initializeData();
     }
 
@@ -332,11 +213,6 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     void setStationData() {
-//        if (substanceAllList.equals(null)) {
-//            substanceAllList = new ArrayList<>();
-//        } else {
-//            substanceAllList.clear();
-//        }
         substanceAllList = new ArrayList<>();
 
         try {
@@ -357,6 +233,5 @@ public class EntryActivity extends AppCompatActivity {
             }, 300);
         }
     }
-
 
 }
